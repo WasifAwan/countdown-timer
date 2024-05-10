@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Javascript Countdown Time</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* background: #3a393b; */
+            background: black;
+        }
+
+        #time {
+            display: flex;
+
+            gap: 30px;
+        }
+
+        #time .circle {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+        }
+
+        #time .circle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 10px solid #1b1a1c;
+            border-radius: 50%;
+        }
+
+        #time .circle::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: #2f2e33;
+            border-radius: 50%;
+            border: 15px solid #4d4c51;
+            box-shadow: inset 0 5px 10px rgba(0, 0, 0, 0.25),
+                0 10px 10px rgba(0, 0, 0, 0.75) 0 -2px 2px rgba(255, 255, 255, 0.5),
+                inset 0 4px 2px rgba(0, 0, 0, 0.25),
+                inset 0 -2px 2px rgba(255, 255, 255, 0.5);
+        }
+
+        #time .circle svg {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            transform: rotate(270deg);
+        }
+
+        #time .circle svg circle {
+            width: 100%;
+            height: 100%;
+            fill: transparent;
+            stroke-width: 8;
+            stroke: var(--clr);
+            stroke-linecap: round;
+            transform: translate(5px, 5px);
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+        }
+
+        #time div {
+            position: absolute;
+            text-align: center;
+            font-weight: 500;
+            color: #fff;
+            z-index: 10000;
+            color: var(--clr);
+            font-size: 1.65em;
+            transform: translateY(-5px);
+        }
+
+        #time div span {
+            position: absolute;
+            transform: translateX(-50%) translateY(-15px);
+            font-size: 0.25em;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+        }
+
+        .newYear {
+            position: absolute;
+            font-size: 8em;
+            font-family: 500;
+            color: #fff;
+            text-align: center;
+            line-height: 0.6em;
+            z-index: 10000000;
+            display: none;
+        }
+
+        .newYear span {
+            font-size: 0.5em;
+            font-weight: 300;
+        }
+
+        .forHeading {
+            color: #fff;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 50px 0;
+            justify-content: center;          
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="forHeading">
+
+        <h1 class="heading">COUNTDOWN TIMER</h1>
+    </div>
+    <div id="time">
+        <div class="circle" style="--clr: #cc5c5c; box-shadow: 0 0 10px red;">
+            <svg>
+                <circle cx="70" cy="70" r="70" id="dd"></circle>
+            </svg>
+            <div id="days">00 <br> <span>Days</span></div>
+        </div>
+        <div class="circle" style="--clr: #2f3bdd; box-shadow: 5px 5px 18px blue;">
+            <svg>
+                <circle cx="70" cy="70" r="70" id="hh"></circle>
+            </svg>
+            <div id="hours">00 <br> <span>Hours</span></div>
+        </div>
+        <div class="circle" style="--clr: #79dd8a; box-shadow: 0 0 10px rgb(0, 255, 76);">
+            <svg>
+                <circle cx="70" cy="70" r="70" id="mm"></circle>
+            </svg>
+            <div id="minutes">00 <br> <span>Minutes</span></div>
+        </div>
+        <div class="circle" style="--clr: #fc1504; box-shadow: 0 0 10px red; ">
+            <svg>
+                <circle cx="70" cy="70" r="70" id="ss"></circle>
+            </svg>
+            <div id="seconds">00 <br> <span>Seconds</span></div>
+        </div>
+    </div>
+
+    <h2 class="newYear">2024 <br><span>Happy New Year</span></h2>
+
+    <script>
+        let days = document.getElementById('days');
+        let hours = document.getElementById('hours');
+        let minutes = document.getElementById('minutes');
+        let seconds = document.getElementById('seconds');
+
+        let dd = document.getElementById('dd');
+        let hh = document.getElementById('hh');
+        let mm = document.getElementById('mm');
+        let ss = document.getElementById('ss');
+
+        let endDate = '01/01/2028 00:00:00';
+
+        // Date Format in mm/dd/yyyy and time is hh:mm:ss
+        let x = setInterval(function () {
+            let now = new Date(endDate).getTime();
+            let countDown = new Date().getTime();
+            let distance = now - countDown;
+
+
+            // time calculation for days,hour,minutes, and seconds
+            let d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+            let s = Math.floor((distance % (1000 * 60)) / (1000))
+
+            //output the result in element with id
+            days.innerHTML = d + "<br><span>Days</span>";
+            hours.innerHTML = h + "<br><span>Hours</span>";
+            minutes.innerHTML = m + "<br><span>Minutes</span>";
+            seconds.innerHTML = s + "<br><span>Seconds</span>";
+
+            //Animate Stroke
+            dd.style.strokeDashoffset = 440 - (440 * d) / 365;
+            // 365 days in an year
+            hh.style.strokeDashoffset = 440 - (440 * h) / 24;
+            // 24hrs in a day
+            mm.style.strokeDashoffset = 440 - (440 * m) / 60;
+            // 60 minutes in a hours
+            ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+            // 60 seconds in a minutes
+
+            // if the count down is over, write happy new year text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("time").style.display = "none";
+                document.querySelector(".newYear").style.display = "block";
+            }
+
+        })
+
+
+
+
+    </script>
+
+</body>
+
+</html>
